@@ -15,48 +15,84 @@
             text-align: center; background: rgba(255, 255, 255, 0.9); 
             padding: 40px; border-radius: 30px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); max-width: 400px;
-            z-index: 1; /* Ensures text stays above moving button */
+            z-index: 10; position: relative;
         }
-        h1 { color: #d63384; font-size: 1.8rem; line-height: 1.4; margin-bottom: 25px; }
-        .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 20px; }
+        h1 { color: #d63384; font-size: 1.8rem; line-height: 1.4; margin-bottom: 25px; transition: 0.3s; }
+        .buttons { margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
         button { 
             padding: 12px 25px; font-size: 1.1rem; border: none; 
-            border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold;
+            border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-weight: bold;
         }
-        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); }
-        #noBtn { background-color: #f8f9fa; color: #6c757d; border: 1px solid #ddd; position: absolute; z-index: 2; }
+        #yesBtn { 
+            background-color: #ff4d6d; color: white; 
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); z-index: 30;
+        }
+        #noBtn { background-color: #f8f9fa; color: #6c757d; border: 1px solid #ddd; z-index: 5; }
         .gif { width: 180px; border-radius: 15px; margin-bottom: 20px; }
+        .heart { position: absolute; color: #ff4d6d; font-size: 20px; top: -20px; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
     </style>
 </head>
 <body>
+    <div id="heart-container"></div>
     <div class="container" id="mainCard">
-        <!-- Working GIF link from GIPHY -->
-        <img class="gif" src="https://media.giphy.com" alt="Cute Bear">
-        <h1>Hey Dee❤️ would you do me the honor of being my valentine?</h1>
+        <img id="mainGif" class="gif" src="https://media0.giphy.com">
+        <h1 id="question">Hey Dee❤️ would you do me the honor of being my valentine?</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
-            <button id="noBtn" onmouseover="moveButton()">No 🥺</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="areYouSure()">No 🥺</button>
         </div>
     </div>
 
     <script>
+        let clickCount = 0;
+        const questions = [
+            "Are you sure? 🤨",
+            "Really sure?? 😭",
+            "Think again... 🌹",
+            "Last chance! 💔",
+            "You're breaking my heart! 🥺"
+        ];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.getElementById('heart-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            // Keeps button within safe screen boundaries
-            const padding = 50; 
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - padding);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - padding);
-            
-            btn.style.left = `${x}px`;
-            btn.style.top = `${y}px`;
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
             btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function areYouSure() {
+            const yesBtn = document.getElementById('yesBtn');
+            const questionText = document.getElementById('question');
+            
+            if (clickCount < questions.length) {
+                questionText.innerText = questions[clickCount];
+                // Make the Yes button grow bigger each time!
+                let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+                yesBtn.style.fontSize = (currentSize * 1.4) + "px";
+                yesBtn.style.padding = (currentSize * 1) + "px " + (currentSize * 2) + "px";
+                clickCount++;
+            }
         }
 
         function celebrate() {
             document.getElementById('mainCard').innerHTML = `
-                <img class="gif" src="https://media.giphy.com">
-                <h1>Yay! Can't wait, Dee! 🌹💖</h1>
-                <p style="font-size: 2rem;">❤️ ❤️ ❤️</p>
+                <img class="gif" src="https://media3.giphy.com">
+                <h1>Yay! I knew you'd say yes, Dee! 🌹💖</h1>
+                <p style="font-size: 1.5rem;">Best Valentine's ever! ❤️</p>
             `;
             document.body.style.background = "radial-gradient(circle, #ffb3c1 0%, #ff4d6d 100%)";
         }
