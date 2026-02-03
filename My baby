@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hey Dee! ❤️</title>
+    <style>
+        body { 
+            font-family: 'Georgia', serif; 
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%); 
+            display: flex; align-items: center; justify-content: center; 
+            height: 100vh; margin: 0; overflow: hidden; color: #721c24;
+        }
+        .container { 
+            text-align: center; background: rgba(255, 255, 255, 0.9); 
+            padding: 40px; border-radius: 30px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); max-width: 400px;
+        }
+        h1 { color: #d63384; font-size: 1.8rem; line-height: 1.4; margin-bottom: 25px; }
+        .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 20px; position: relative; }
+        button { 
+            padding: 12px 25px; font-size: 1.1rem; border: none; 
+            border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); }
+        #noBtn { background-color: #f8f9fa; color: #6c757d; border: 1px solid #ddd; position: absolute; }
+        .gif { width: 180px; border-radius: 15px; margin-bottom: 20px; }
+        .hearts { color: #ff4d6d; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="gif" src="https://media.giphy.com" alt="Cute Bear">
+        <h1>Hey Dee❤️ would you do me the honor of being my valentine?</h1>
+        <div class="buttons" id="btnContainer">
+            <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
+            <button id="noBtn" onmouseover="moveButton()">No 🥺</button>
+        </div>
+    </div>
+
+    <script>
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            // Randomly move button within a 300px range so it stays somewhat near
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = `${x}px`;
+            btn.style.top = `${y}px`;
+            btn.style.position = 'fixed';
+        }
+
+        function celebrate() {
+            document.querySelector('.container').innerHTML = `
+                <img class="gif" src="https://media.giphy.com">
+                <h1>Yay! Can't wait, Dee! 🌹💖</h1>
+                <p class="hearts">❤️ ❤️ ❤️</p>
+            `;
+            // Add a little confetti-like background change
+            document.body.style.background = "radial-gradient(circle, #ffb3c1 0%, #ff4d6d 100%)";
+        }
+    </script>
+</body>
+</html>
