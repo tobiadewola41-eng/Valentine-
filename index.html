@@ -1,101 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hey Dee! ❤️</title>
-    <style>
-        body { 
-            font-family: 'Georgia', serif; 
-            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%); 
-            display: flex; align-items: center; justify-content: center; 
-            height: 100vh; margin: 0; overflow: hidden; color: #721c24;
-        }
-        .container { 
-            text-align: center; background: rgba(255, 255, 255, 0.9); 
-            padding: 40px; border-radius: 30px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); max-width: 400px;
-            z-index: 10; position: relative;
-        }
-        h1 { color: #d63384; font-size: 1.8rem; line-height: 1.4; margin-bottom: 25px; transition: 0.3s; }
-        .buttons { margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
-        button { 
-            padding: 12px 25px; font-size: 1.1rem; border: none; 
-            border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-weight: bold;
-        }
-        #yesBtn { 
-            background-color: #ff4d6d; color: white; 
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); z-index: 30;
-        }
-        #noBtn { background-color: #f8f9fa; color: #6c757d; border: 1px solid #ddd; z-index: 5; }
-        .gif { width: 180px; border-radius: 15px; margin-bottom: 20px; }
-        .heart { position: absolute; color: #ff4d6d; font-size: 20px; top: -20px; animation: fall linear infinite; }
-        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Dee ❤️</title>
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    color: #721c24;
+}
+
+#heart-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 30px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    max-width: 380px;
+    z-index: 10;
+}
+
+h1 {
+    color: #d63384;
+    font-size: 1.7rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.gif {
+    width: 180px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+#yesBtn {
+    background-color: #ff4d6d;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255,77,109,.4);
+}
+
+#noBtn {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #ddd;
+}
+
+.heart {
+    position: absolute;
+    color: #ff4d6d;
+    font-size: 20px;
+    top: -20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(105vh) rotate(360deg); }
+}
+
+/* Music toggle */
+#musicToggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 50;
+    box-shadow: 0 4px 15px rgba(0,0,0,.2);
+}
+</style>
 </head>
+
 <body>
-    <div id="heart-container"></div>
-    <div class="container" id="mainCard">
-        <img id="mainGif" class="gif" src="https://media0.giphy.com">
-        <h1 id="question">Hey Dee❤️ would you do me the honor of being my valentine?</h1>
-        <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="areYouSure()">No 🥺</button>
-        </div>
+
+<div id="heart-container"></div>
+
+<div class="container" id="mainCard">
+    <img class="gif" src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+    <h1 id="question">Hey Dee ❤️<br>Would you do me the honor of being my Valentine?</h1>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
+        <button id="noBtn" onmouseover="moveButton()" onclick="areYouSure()">No 🥺</button>
     </div>
+</div>
 
-    <script>
-        let clickCount = 0;
-        const questions = [
-            "Are you sure? 🤨",
-            "Really sure?? 😭",
-            "Think again... 🌹",
-            "Last chance! 💔",
-            "You're breaking my heart! 🥺"
-        ];
+<div id="musicToggle" onclick="toggleMusic()">🔊</div>
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.getElementById('heart-container').appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+    <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-moment-642.mp3">
+</audio>
+
+<audio id="celebrationMusic">
+    <source src="https://assets.mixkit.co/music/preview/mixkit-happy-love-song-1008.mp3">
+</audio>
+
+<audio id="yaySound">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-happy-bell-alert-601.mp3">
+</audio>
+
+<script>
+let clickCount = 0;
+let musicStarted = false;
+
+const questions = [
+    "Are you sure? 🤨",
+    "Like… REALLY sure?? 😭",
+    "Think again… 🌹",
+    "Last chance 💔",
+    "Okay okay… I’ll stop running 🥺"
+];
+
+const bgMusic = document.getElementById("bgMusic");
+const celebrationMusic = document.getElementById("celebrationMusic");
+
+function fadeIn(audio, target = 0.35) {
+    audio.volume = 0;
+    audio.play();
+    let v = 0;
+    const fade = setInterval(() => {
+        v += 0.02;
+        audio.volume = Math.min(v, target);
+        if (v >= target) clearInterval(fade);
+    }, 100);
+}
+
+function fadeOut(audio) {
+    let v = audio.volume;
+    const fade = setInterval(() => {
+        v -= 0.03;
+        audio.volume = Math.max(v, 0);
+        if (v <= 0) {
+            audio.pause();
+            clearInterval(fade);
         }
-        setInterval(createHeart, 300);
+    }, 100);
+}
 
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
-            btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
+function startMusic() {
+    if (!musicStarted) {
+        fadeIn(bgMusic);
+        musicStarted = true;
+    }
+}
 
-        function areYouSure() {
-            const yesBtn = document.getElementById('yesBtn');
-            const questionText = document.getElementById('question');
-            
-            if (clickCount < questions.length) {
-                questionText.innerText = questions[clickCount];
-                // Make the Yes button grow bigger each time!
-                let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-                yesBtn.style.fontSize = (currentSize * 1.4) + "px";
-                yesBtn.style.padding = (currentSize * 1) + "px " + (currentSize * 2) + "px";
-                clickCount++;
-            }
-        }
+document.addEventListener("click", startMusic, { once: true });
+document.addEventListener("touchstart", startMusic, { once: true });
 
-        function celebrate() {
-            document.getElementById('mainCard').innerHTML = `
-                <img class="gif" src="https://media3.giphy.com">
-                <h1>Yay! I knew you'd say yes, Dee! 🌹💖</h1>
-                <p style="font-size: 1.5rem;">Best Valentine's ever! ❤️</p>
-            `;
-            document.body.style.background = "radial-gradient(circle, #ffb3c1 0%, #ff4d6d 100%)";
+function toggleMusic() {
+    if (bgMusic.paused && celebrationMusic.paused) {
+        fadeIn(bgMusic);
+        document.getElementById("musicToggle").innerText = "🔊";
+    } else {
+        fadeOut(bgMusic);
+        fadeOut(celebrationMusic);
+        document.getElementById("musicToggle").innerText = "🔇";
+    }
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+    document.getElementById("heart-container").appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+
+function moveButton() {
+    if (clickCount >= questions.length - 1) return;
+
+    const btn = document.getElementById("noBtn");
+    const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+    const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
+
+    btn.style.position = "fixed";
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+}
+
+function areYouSure() {
+    if (clickCount < questions.length) {
+        document.getElementById("question").innerText = questions[clickCount];
+        clickCount++;
+        if (clickCount === questions.length) {
+            document.getElementById("noBtn").innerText = "Okay fine 😭❤️";
         }
-    </script>
+    }
+}
+
+function celebrate() {
+    fadeOut(bgMusic);
+    fadeIn(celebrationMusic, 0.5);
+    document.getElementById("yaySound").play();
+
+    document.getElementById("mainCard").innerHTML = `
+        <img class="gif" src="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif">
+        <h1>YAY!! 💖🌹</h1>
+        <p style="font-size:1.4rem">
+            I knew you’d say yes, Dee.<br><br>
+            Best Valentine’s ever ❤️
+        </p>
+    `;
+
+    document.body.style.background =
+        "radial-gradient(circle, #ffb3c1 0%, #ff4d6d 100%)";
+}
+</script>
+
 </body>
 </html>
