@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Hey Dee ❤️</title>
 
 <style>
+:root {
+    --pink: #ff4d6d;
+    --pink-soft: #ffb3c1;
+    --wine: #721c24;
+    --glass: rgba(255,255,255,0.85);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.18);
+    --shadow-md: 0 10px 25px rgba(0,0,0,0.15);
+}
+
 body {
-    font-family: 'Georgia', serif;
-    background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+    font-family: "Georgia", serif;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
     overflow: hidden;
-    color: #721c24;
+    color: var(--wine);
+    transition: background 1s ease;
 }
 
+/* Hearts */
 #heart-container {
     position: fixed;
     inset: 0;
@@ -25,94 +36,123 @@ body {
     z-index: 1;
 }
 
+.heart {
+    position: absolute;
+    top: -20px;
+    animation: fall linear infinite;
+    opacity: .8;
+}
+
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Card */
 .container {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px 30px;
-    border-radius: 30px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    padding: 42px 34px;
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
     max-width: 380px;
+    text-align: center;
     z-index: 10;
+    animation: cardEnter .8s ease-out;
 }
 
-h1 {
-    color: #d63384;
-    font-size: 1.7rem;
-    line-height: 1.4;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
+@keyframes cardEnter {
+    from { opacity: 0; transform: translateY(30px) scale(.97); }
+    to { opacity: 1; transform: none; }
 }
 
 .gif {
     width: 180px;
-    border-radius: 15px;
-    margin-bottom: 20px;
+    border-radius: 18px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-md);
+}
+
+h1 {
+    font-size: 1.7rem;
+    line-height: 1.45;
+    color: #d63384;
+    margin-bottom: 22px;
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.025); }
 }
 
 .buttons {
-    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 18px;
     flex-wrap: wrap;
 }
 
 button {
-    padding: 12px 25px;
-    font-size: 1.1rem;
     border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-size: 1.05rem;
     font-weight: bold;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--pink-soft);
+    outline-offset: 3px;
 }
 
 #yesBtn {
-    background-color: #ff4d6d;
+    background: linear-gradient(135deg, var(--pink), #ff758f);
     color: white;
-    box-shadow: 0 4px 15px rgba(255,77,109,.4);
+    box-shadow: 0 8px 20px rgba(255,77,109,.45);
+}
+
+#yesBtn:hover {
+    transform: translateY(-3px) scale(1.04);
 }
 
 #noBtn {
-    background-color: #f8f9fa;
+    background: #f8f9fa;
     color: #6c757d;
     border: 1px solid #ddd;
 }
 
-.heart {
-    position: absolute;
-    color: #ff4d6d;
-    font-size: 20px;
-    top: -20px;
-    animation: fall linear infinite;
+#noBtn:hover {
+    transform: translateY(-2px);
 }
 
-@keyframes fall {
-    to { transform: translateY(105vh) rotate(360deg); }
-}
-
-/* Music toggle */
+/* Music Toggle */
 #musicToggle {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     cursor: pointer;
     z-index: 50;
-    box-shadow: 0 4px 15px rgba(0,0,0,.2);
+    box-shadow: var(--shadow-md);
+    transition: transform .2s ease;
+}
+
+#musicToggle:hover {
+    transform: scale(1.1);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
 }
 </style>
 </head>
@@ -122,7 +162,7 @@ button {
 <div id="heart-container"></div>
 
 <div class="container" id="mainCard">
-    <img class="gif" src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+    <img class="gif" src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" />
     <h1 id="question">Hey Dee ❤️<br>Would you do me the honor of being my Valentine?</h1>
 
     <div class="buttons">
@@ -161,6 +201,7 @@ const questions = [
 const bgMusic = document.getElementById("bgMusic");
 const celebrationMusic = document.getElementById("celebrationMusic");
 
+/* Music helpers */
 function fadeIn(audio, target = 0.35) {
     audio.volume = 0;
     audio.play();
@@ -195,53 +236,70 @@ document.addEventListener("click", startMusic, { once: true });
 document.addEventListener("touchstart", startMusic, { once: true });
 
 function toggleMusic() {
+    const icon = document.getElementById("musicToggle");
     if (bgMusic.paused && celebrationMusic.paused) {
         fadeIn(bgMusic);
-        document.getElementById("musicToggle").innerText = "🔊";
+        icon.innerText = "🔊";
     } else {
         fadeOut(bgMusic);
         fadeOut(celebrationMusic);
-        document.getElementById("musicToggle").innerText = "🔇";
+        icon.innerText = "🔇";
     }
 }
 
+/* Hearts */
 function createHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "❤️";
+
+    const size = Math.random() * 14 + 14;
+    heart.style.fontSize = size + "px";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+    heart.style.opacity = Math.random() * 0.5 + 0.4;
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
     document.getElementById("heart-container").appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
+    setTimeout(() => heart.remove(), 7000);
 }
 setInterval(createHeart, 300);
 
+/* No button behavior */
 function moveButton() {
     if (clickCount >= questions.length - 1) return;
 
     const btn = document.getElementById("noBtn");
-    const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
-    const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
+    const padding = 20;
+
+    const maxX = window.innerWidth - btn.offsetWidth - padding;
+    const maxY = window.innerHeight - btn.offsetHeight - padding;
 
     btn.style.position = "fixed";
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
+    btn.style.left = Math.random() * maxX + "px";
+    btn.style.top = Math.random() * maxY + "px";
 }
 
 function areYouSure() {
     if (clickCount < questions.length) {
         document.getElementById("question").innerText = questions[clickCount];
         clickCount++;
+
         if (clickCount === questions.length) {
             document.getElementById("noBtn").innerText = "Okay fine 😭❤️";
         }
     }
 }
 
+/* Celebrate */
 function celebrate() {
     fadeOut(bgMusic);
     fadeIn(celebrationMusic, 0.5);
     document.getElementById("yaySound").play();
+
+    document.body.animate(
+        [{ transform: "scale(1)" }, { transform: "scale(1.03)" }, { transform: "scale(1)" }],
+        { duration: 600, easing: "ease-out" }
+    );
 
     document.getElementById("mainCard").innerHTML = `
         <img class="gif" src="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif">
