@@ -6,89 +6,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    color: white;
+    padding: 20px;
+    color: #5a2a2a;
   }
 
   .card {
-    background: rgba(255,255,255,0.22);
-    backdrop-filter: blur(14px);
-    padding: 38px;
-    border-radius: 28px;
+    background: #fff;
+    border-radius: 24px;
+    padding: 24px;
+    max-width: 360px;
+    width: 100%;
     text-align: center;
-    max-width: 390px;
-    box-shadow: 0 25px 45px rgba(0,0,0,0.3);
-    z-index: 10;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
   }
 
-  h1 { font-size: 2.2rem; }
-  p { font-size: 1.1rem; line-height: 1.5; margin-bottom: 18px; }
+  .teddy {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-bottom: 16px;
+  }
 
   .joke {
-    font-size: 1.25rem;
-    margin-bottom: 14px;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    min-height: 48px;
   }
 
-  .countdown {
-    font-size: 0.95rem;
-    margin-bottom: 16px;
-    opacity: 0.9;
+  h1 {
+    font-size: 1.9rem;
+    margin: 10px 0;
+    color: #ff4d6d;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 18px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   button {
-    padding: 14px 30px;
-    border-radius: 30px;
+    padding: 12px 22px;
+    border-radius: 999px;
     border: none;
-    font-size: 1.05rem;
+    font-size: 1rem;
     cursor: pointer;
-    margin: 10px;
-    transition: all 0.2s ease;
   }
 
-  .yes { background: #ff1e56; color: white; }
-  .no  { background: white; color: #ff1e56; position: absolute; }
+  .yes {
+    background: #ff4d6d;
+    color: white;
+  }
 
-  button:hover { transform: scale(1.1); }
+  .no {
+    background: #ffe3e8;
+    color: #ff4d6d;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
 
   .heart {
-    position: absolute;
-    font-size: 22px;
-    animation: float 6s linear infinite;
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
   }
 
-  @keyframes float {
-    0% { transform: translateY(100vh); opacity: 0; }
-    15% { opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.7); opacity: 0; }
+  @keyframes floatUp {
+    to {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
   }
-
-  .slideshow {
-    width: 100%;
-    height: 200px;
-    margin: 14px 0;
-    border-radius: 18px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .slideshow img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    opacity: 0;
-    transition: opacity 1s;
-  }
-
-  .slideshow img.active { opacity: 1; }
 </style>
 </head>
 
@@ -98,133 +109,103 @@
   <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
 </audio>
 
-<div class="card">
-  <div class="joke">😏 Hey baby… you’re looking <b>scrumptious</b> today 🍓</div>
+<div class="card" id="card">
+  <img
+    class="teddy"
+    src="https://images.unsplash.com/photo-1517841905240-472988babdf9"
+    alt="Cute teddy bear"
+  >
 
-  <h1>💖 Dee, Will You Be My Valentine?</h1>
+  <div class="joke" id="joke"></div>
 
-  <div class="countdown" id="countdown"></div>
+  <h1>Dee, will you be my Valentine? 💖</h1>
 
   <p>
-    Hi Dee 😌💗<br><br>
-    It’s Tobi.<br>
-    You’re cute, funny, and honestly way too fine 😏<br>
-    Clicking “Yes” is basically destiny.
+    It’s Tobi 😌<br>
+    I think you’re cute, amazing, and lowkey my favorite person.
   </p>
 
-  <div class="slideshow">
-    <img src="https://picsum.photos/400/300?1" class="active">
-    <img src="https://picsum.photos/400/300?2">
-    <img src="https://picsum.photos/400/300?3">
+  <div class="buttons">
+    <button class="yes" onclick="yesClick()">Yes 💘</button>
+    <button class="no" onclick="noClick()">No 🙈</button>
   </div>
-
-  <button class="yes" onclick="yesClick()">Yes 💘</button>
-  <button class="no" id="noBtn">No 🙈</button>
 </div>
 
 <script>
-  // Countdown
-  const countdownEl = document.getElementById("countdown");
-  const valentines = new Date("February 14, 2026 00:00:00").getTime();
+  /* Joke slideshow */
+  const jokes = [
+    "😏 Hey baby… you’re looking scrumptious today 🍓",
+    "🧸 Warning: This teddy is judging you if you say no",
+    "💖 Be honest… you smiled already",
+    "😌 Okay but imagine us being cute together"
+  ];
 
-  setInterval(() => {
-    const now = new Date().getTime();
-    const diff = valentines - now;
-    if (diff < 0) {
-      countdownEl.innerHTML = "💘 It’s Valentine’s Day 💘";
-      return;
-    }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    countdownEl.innerHTML = `⏳ ${days} days until Valentine’s Day`;
-  }, 1000);
+  let jokeIndex = 0;
+  const jokeEl = document.getElementById("joke");
 
-  // YES click
+  function showNextJoke() {
+    jokeEl.textContent = jokes[jokeIndex];
+    jokeIndex = (jokeIndex + 1) % jokes.length;
+  }
+
+  showNextJoke();
+  setInterval(showNextJoke, 3000);
+
+  /* Yes click */
   function yesClick() {
-    document.body.innerHTML = `
-      <div style="
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        height:100vh;
-        text-align:center;
-        padding:20px;
-      ">
-        <h1 style="font-size:3rem;">SHE SAID YES!!! 💕🥰</h1>
-
-        <p style="font-size:1.6rem; margin:10px 0;">
-          😌💖 That’s my girl 💖😌
-        </p>
-
-        <p style="font-size:1.4rem;">
-          Dee is officially Tobi’s Valentine 💘
-        </p>
-
-        <p style="max-width:420px;">
-          I really like you. Your smile, your energy,
-          the way you exist… all of it makes my days better.
-          I’m really happy it’s you 💌
-        </p>
-
-        <p>– Tobi 😘</p>
-      </div>
+    document.getElementById("card").innerHTML = `
+      <img
+        class="teddy"
+        src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb"
+      >
+      <h1>SHE SAID YES!!! 🥰</h1>
+      <p style="font-size:1.2rem;">😌💖 That’s my girl 💖😌</p>
+      <p>
+        Dee is officially Tobi’s Valentine.<br>
+        I’m really happy it’s you 💌
+      </p>
     `;
     confetti();
   }
 
-  // No button chaos
-  const noBtn = document.getElementById("noBtn");
-  noBtn.addEventListener("mouseover", moveNo);
-  noBtn.addEventListener("click", () => alert("Nice try 😏"));
-
-  function moveNo() {
-    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  function noClick() {
+    alert("😅 Let’s try that again…");
   }
 
-  // Floating hearts
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = 4 + Math.random() * 4 + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 8000);
+  /* Hearts */
+  function spawnHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = Math.random() > 0.5 ? "❤️" : "💖";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = 4 + Math.random() * 4 + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 7000);
   }
-  setInterval(createHeart, 260);
+  setInterval(spawnHeart, 500);
 
-  // Confetti
+  /* Confetti */
   function confetti() {
-    for (let i = 0; i < 160; i++) {
+    for (let i = 0; i < 100; i++) {
       const c = document.createElement("div");
-      c.innerHTML = "🎉";
+      c.textContent = "🎉";
       c.style.position = "fixed";
       c.style.left = Math.random() * 100 + "vw";
       c.style.top = "-20px";
-      c.style.fontSize = "20px";
-      c.style.animation = `fall ${2 + Math.random() * 3}s linear`;
+      c.style.fontSize = "18px";
+      c.style.animation = "fall 3s linear";
       document.body.appendChild(c);
-      setTimeout(() => c.remove(), 5000);
+      setTimeout(() => c.remove(), 3000);
     }
   }
 
   const style = document.createElement("style");
   style.innerHTML = `
     @keyframes fall {
-      to { transform: translateY(110vh) rotate(360deg); }
+      to { transform: translateY(110vh); }
     }
   `;
   document.head.appendChild(style);
-
-  // Slideshow
-  const slides = document.querySelectorAll(".slideshow img");
-  let index = 0;
-  setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
-  }, 3000);
 </script>
 
 </body>
