@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Tobi 💖 Dee</title>
+<title>Tobi 💙 Dee</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
+  :root {
+    --blue: #4da3ff;
+    --deep-blue: #0f172a;
+    --soft-blue: #e6f0ff;
+    --text-dark: #0b1220;
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -13,46 +20,47 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(180deg, #fff0f3, #ffd6e0);
+    background: linear-gradient(180deg, #0b1220, #111827);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    color: #4a2b2b;
+    padding: 24px;
+    color: white;
   }
 
   .card {
-    background: #ffffff;
     width: 100%;
-    max-width: 360px;
-    border-radius: 24px;
-    padding: 24px;
+    max-width: 380px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px);
+    border-radius: 22px;
+    padding: 28px;
     text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    animation: cardIn 0.6s ease-out;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    animation: fadeUp 0.8s ease-out;
   }
 
-  @keyframes cardIn {
+  @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .teddy {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 18px;
-    margin-bottom: 18px;
+  /* Decorative Valentine row */
+  .icons {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    letter-spacing: 6px;
+    opacity: 0.9;
   }
 
   .joke {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    color: #c7d2fe;
     min-height: 48px;
-    margin-bottom: 14px;
-    color: #7a3b3b;
+    margin-bottom: 16px;
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
@@ -63,27 +71,28 @@
 
   h1 {
     font-size: 1.9rem;
-    color: #ff4d6d;
-    margin: 10px 0;
+    color: var(--blue);
+    margin: 10px 0 8px;
   }
 
   p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    line-height: 1.5;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: #e5e7eb;
+    margin-bottom: 22px;
   }
 
   .buttons {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     justify-content: center;
   }
 
   button {
     border: none;
-    padding: 12px 22px;
+    padding: 12px 26px;
     border-radius: 999px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -93,30 +102,47 @@
   }
 
   .yes {
-    background: #ff4d6d;
-    color: white;
-    box-shadow: 0 6px 16px rgba(255,77,109,0.35);
+    background: var(--blue);
+    color: #0b1220;
+    box-shadow: 0 10px 24px rgba(77,163,255,0.4);
   }
 
   .no {
-    background: #ffe6ec;
-    color: #ff4d6d;
+    background: transparent;
+    color: #c7d2fe;
+    border: 1px solid rgba(255,255,255,0.2);
   }
 
-  /* Confetti */
+  /* Calm floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 16px;
+    opacity: 0.6;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    to {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
+  }
+
+  /* Confetti (professional, subtle) */
   .confetti {
     position: fixed;
     top: -10px;
-    width: 8px;
+    width: 6px;
     height: 14px;
-    background: red;
+    background: var(--blue);
     opacity: 0.9;
-    animation: confettiFall linear forwards;
+    animation: confettiFall cubic-bezier(.2,.6,.4,1) forwards;
   }
 
   @keyframes confettiFall {
     to {
-      transform: translateY(110vh) rotate(720deg);
+      transform: translateY(110vh) rotate(540deg);
       opacity: 0;
     }
   }
@@ -125,39 +151,32 @@
 
 <body>
 
-<audio autoplay loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-</audio>
-
 <div class="card" id="card">
-  <img
-    class="teddy"
-    src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80"
-    alt="Cute teddy bear"
-  />
+  <div class="icons">💙 🎩 💙 🖤</div>
 
   <div class="joke show" id="joke"></div>
 
-  <h1>Dee, will you be my Valentine? 💖</h1>
+  <h1>Dee, will you be my Valentine?</h1>
 
   <p>
-    It’s Tobi 😌<br />
-    I think you’re cute, amazing, and someone I’d really love to be cute with.
+    It’s Tobi.<br>
+    Calm question, real feelings.<br>
+    I think you’re special — genuinely.
   </p>
 
   <div class="buttons">
-    <button class="yes" onclick="yesClick()">Yes 💘</button>
-    <button class="no" onclick="noClick()">No 🙈</button>
+    <button class="yes" onclick="yesClick()">Yes 💙</button>
+    <button class="no" onclick="noClick()">No</button>
   </div>
 </div>
 
 <script>
-  /* Joke carousel */
+  /* Joke carousel (smooth + professional) */
   const jokes = [
-    "😏 Hey baby… you’re looking scrumptious today 🍓",
-    "🧸 This teddy approves this message",
-    "💖 Be honest… you already smiled",
-    "😌 Okay but imagine us being cute together"
+    "😏 Hey baby… you’re looking scrumptious today",
+    "🎩 Even the hats think you’re cute",
+    "💙 Blue looks good on you… just saying",
+    "🖤 No pressure — just vibes"
   ];
 
   const jokeEl = document.getElementById("joke");
@@ -169,42 +188,53 @@
       jokeEl.textContent = jokes[jokeIndex];
       jokeEl.classList.add("show");
       jokeIndex = (jokeIndex + 1) % jokes.length;
-    }, 400);
+    }, 500);
   }
 
   rotateJoke();
-  setInterval(rotateJoke, 3200);
+  setInterval(rotateJoke, 3500);
 
   /* YES */
   function yesClick() {
     document.getElementById("card").innerHTML = `
-      <img class="teddy"
-        src="https://images.unsplash.com/photo-1615485737651-580c9159c89a?auto=format&fit=crop&w=800&q=80">
-      <h1>SHE SAID YES 🥰</h1>
-      <p style="font-size:1.2rem;">😌💖 That’s my girl 💖😌</p>
+      <div class="icons">💙 🖤 💙</div>
+      <h1>She said yes.</h1>
+      <p style="font-size:1.1rem; margin-top:10px;">
+        😌 That’s my girl.
+      </p>
       <p>
-        Dee is officially Tobi’s Valentine.<br>
-        I’m really happy it’s you 💌
+        I’m really glad it’s you, Dee.<br>
+        – Tobi
       </p>
     `;
     launchConfetti();
   }
 
   function noClick() {
-    alert("😅 Let’s rethink that one...");
+    alert("That’s okay 🙂");
   }
 
-  /* Confetti engine */
+  /* Floating hearts */
+  function spawnHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = Math.random() > 0.5 ? "💙" : "🖤";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = 6 + Math.random() * 4 + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 10000);
+  }
+  setInterval(spawnHeart, 900);
+
+  /* Confetti */
   function launchConfetti() {
-    const colors = ["#ff4d6d", "#ffd166", "#f78fb3", "#ffffff"];
     for (let i = 0; i < 120; i++) {
       const c = document.createElement("div");
       c.className = "confetti";
       c.style.left = Math.random() * 100 + "vw";
-      c.style.background = colors[Math.floor(Math.random() * colors.length)];
-      c.style.animationDuration = 2.5 + Math.random() * 2 + "s";
+      c.style.animationDuration = 3 + Math.random() * 2 + "s";
       document.body.appendChild(c);
-      setTimeout(() => c.remove(), 5000);
+      setTimeout(() => c.remove(), 6000);
     }
   }
 </script>
