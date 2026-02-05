@@ -7,10 +7,10 @@
 
 <style>
   :root {
-    --blue: #4da3ff;
-    --deep-blue: #0f172a;
-    --soft-blue: #e6f0ff;
-    --text-dark: #0b1220;
+    --blue: #5aa9ff;
+    --blue-soft: #cfe5ff;
+    --black: #0b0f1a;
+    --glass: rgba(255,255,255,0.06);
   }
 
   * {
@@ -20,8 +20,8 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(180deg, #0b1220, #111827);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(1200px at top, #10162a, #05070f);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,35 +32,34 @@
   .card {
     width: 100%;
     max-width: 380px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(16px);
-    border-radius: 22px;
-    padding: 28px;
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    border-radius: 24px;
+    padding: 30px 26px 32px;
     text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-    animation: fadeUp 0.8s ease-out;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.45);
+    animation: cardEnter 0.9s cubic-bezier(.2,.8,.2,1);
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+  @keyframes cardEnter {
+    from { opacity: 0; transform: translateY(28px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Decorative Valentine row */
   .icons {
-    font-size: 1.6rem;
-    margin-bottom: 16px;
+    font-size: 1.5rem;
     letter-spacing: 6px;
-    opacity: 0.9;
+    margin-bottom: 18px;
+    opacity: 0.95;
   }
 
   .joke {
-    font-size: 1.05rem;
-    color: #c7d2fe;
-    min-height: 48px;
-    margin-bottom: 16px;
+    font-size: 1.02rem;
+    color: var(--blue-soft);
+    min-height: 44px;
+    margin-bottom: 18px;
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
@@ -70,16 +69,17 @@
   }
 
   h1 {
-    font-size: 1.9rem;
+    font-size: 1.85rem;
+    font-weight: 600;
     color: var(--blue);
-    margin: 10px 0 8px;
+    margin: 8px 0 10px;
   }
 
   p {
-    font-size: 0.98rem;
+    font-size: 0.96rem;
     line-height: 1.6;
-    color: #e5e7eb;
-    margin-bottom: 22px;
+    color: #d1d5db;
+    margin-bottom: 26px;
   }
 
   .buttons {
@@ -90,46 +90,50 @@
 
   button {
     border: none;
-    padding: 12px 26px;
+    padding: 12px 28px;
     border-radius: 999px;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   }
 
   button:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
 
   .yes {
     background: var(--blue);
-    color: #0b1220;
-    box-shadow: 0 10px 24px rgba(77,163,255,0.4);
+    color: var(--black);
+    box-shadow: 0 12px 26px rgba(90,169,255,0.45);
+  }
+
+  .yes:hover {
+    box-shadow: 0 16px 34px rgba(90,169,255,0.6);
   }
 
   .no {
     background: transparent;
     color: #c7d2fe;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.25);
   }
 
-  /* Calm floating hearts */
+  /* Floating hearts – slow & subtle */
   .heart {
     position: fixed;
     bottom: -20px;
-    font-size: 16px;
-    opacity: 0.6;
-    animation: floatUp linear infinite;
+    font-size: 14px;
+    opacity: 0.45;
+    animation: heartFloat linear infinite;
   }
 
-  @keyframes floatUp {
+  @keyframes heartFloat {
     to {
       transform: translateY(-110vh);
       opacity: 0;
     }
   }
 
-  /* Confetti (professional, subtle) */
+  /* Confetti – refined */
   .confetti {
     position: fixed;
     top: -10px;
@@ -152,7 +156,7 @@
 <body>
 
 <div class="card" id="card">
-  <div class="icons">💙 🎩 💙 🖤</div>
+  <div class="icons">💙 🎩 🖤</div>
 
   <div class="joke show" id="joke"></div>
 
@@ -160,8 +164,8 @@
 
   <p>
     It’s Tobi.<br>
-    Calm question, real feelings.<br>
-    I think you’re special — genuinely.
+    Simple question. Real intention.<br>
+    I think you’re genuinely special.
   </p>
 
   <div class="buttons">
@@ -171,40 +175,39 @@
 </div>
 
 <script>
-  /* Joke carousel (smooth + professional) */
+  /* Calm joke carousel */
   const jokes = [
     "😏 Hey baby… you’re looking scrumptious today",
-    "🎩 Even the hats think you’re cute",
-    "💙 Blue looks good on you… just saying",
-    "🖤 No pressure — just vibes"
+    "🎩 Even the hats agree — you’re cute",
+    "💙 Blue really suits you",
+    "🖤 No pressure. Just honesty."
   ];
 
   const jokeEl = document.getElementById("joke");
-  let jokeIndex = 0;
+  let index = 0;
 
   function rotateJoke() {
     jokeEl.classList.remove("show");
     setTimeout(() => {
-      jokeEl.textContent = jokes[jokeIndex];
+      jokeEl.textContent = jokes[index];
       jokeEl.classList.add("show");
-      jokeIndex = (jokeIndex + 1) % jokes.length;
+      index = (index + 1) % jokes.length;
     }, 500);
   }
 
   rotateJoke();
-  setInterval(rotateJoke, 3500);
+  setInterval(rotateJoke, 3600);
 
-  /* YES */
   function yesClick() {
     document.getElementById("card").innerHTML = `
       <div class="icons">💙 🖤 💙</div>
       <h1>She said yes.</h1>
-      <p style="font-size:1.1rem; margin-top:10px;">
+      <p style="font-size:1.05rem; margin-top:12px;">
         😌 That’s my girl.
       </p>
       <p>
         I’m really glad it’s you, Dee.<br>
-        – Tobi
+        — Tobi
       </p>
     `;
     launchConfetti();
@@ -214,21 +217,21 @@
     alert("That’s okay 🙂");
   }
 
-  /* Floating hearts */
+  /* Hearts */
   function spawnHeart() {
     const h = document.createElement("div");
     h.className = "heart";
     h.textContent = Math.random() > 0.5 ? "💙" : "🖤";
     h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 6 + Math.random() * 4 + "s";
+    h.style.animationDuration = 8 + Math.random() * 4 + "s";
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), 10000);
+    setTimeout(() => h.remove(), 12000);
   }
-  setInterval(spawnHeart, 900);
+  setInterval(spawnHeart, 1200);
 
   /* Confetti */
   function launchConfetti() {
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 110; i++) {
       const c = document.createElement("div");
       c.className = "confetti";
       c.style.left = Math.random() * 100 + "vw";
