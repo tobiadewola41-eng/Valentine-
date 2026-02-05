@@ -1,318 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hey Dee ❤️</title>
+<meta charset="UTF-8">
+<title>Tobi 💖 Dee</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root {
-    --pink: #ff4d6d;
-    --pink-soft: #ffb3c1;
-    --wine: #721c24;
-    --glass: rgba(255,255,255,0.85);
-    --shadow-lg: 0 20px 40px rgba(0,0,0,0.18);
-    --shadow-md: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-body {
-    font-family: "Georgia", serif;
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  body {
     margin: 0;
-    overflow: hidden;
-    color: var(--wine);
-    transition: background 1s ease;
-}
-
-/* Hearts */
-#heart-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.heart {
-    position: absolute;
-    top: -20px;
-    animation: fall linear infinite;
-    opacity: .8;
-}
-
-@keyframes fall {
-    to { transform: translateY(110vh) rotate(360deg); }
-}
-
-/* Card */
-.container {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    padding: 42px 34px;
-    border-radius: 28px;
-    box-shadow: var(--shadow-lg);
-    max-width: 380px;
-    text-align: center;
-    z-index: 10;
-    animation: cardEnter .8s ease-out;
-}
-
-@keyframes cardEnter {
-    from { opacity: 0; transform: translateY(30px) scale(.97); }
-    to { opacity: 1; transform: none; }
-}
-
-.gif {
-    width: 180px;
-    border-radius: 18px;
-    margin-bottom: 22px;
-    box-shadow: var(--shadow-md);
-}
-
-h1 {
-    font-size: 1.7rem;
-    line-height: 1.45;
-    color: #d63384;
-    margin-bottom: 22px;
-    animation: pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.025); }
-}
-
-.buttons {
+    height: 100vh;
+    background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+    font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-button {
-    border: none;
-    border-radius: 999px;
-    padding: 14px 28px;
-    font-size: 1.05rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-button:focus-visible {
-    outline: 3px solid var(--pink-soft);
-    outline-offset: 3px;
-}
-
-#yesBtn {
-    background: linear-gradient(135deg, var(--pink), #ff758f);
-    color: white;
-    box-shadow: 0 8px 20px rgba(255,77,109,.45);
-}
-
-#yesBtn:hover {
-    transform: translateY(-3px) scale(1.04);
-}
-
-#noBtn {
-    background: #f8f9fa;
-    color: #6c757d;
-    border: 1px solid #ddd;
-}
-
-#noBtn:hover {
-    transform: translateY(-2px);
-}
-
-/* Music Toggle */
-#musicToggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.9);
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
+    overflow: hidden;
+    color: white;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(14px);
+    padding: 38px;
+    border-radius: 28px;
+    text-align: center;
+    max-width: 390px;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+    z-index: 10;
+  }
+
+  h1 { font-size: 2.2rem; }
+  p { font-size: 1.1rem; line-height: 1.5; margin-bottom: 18px; }
+
+  .joke {
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+  }
+
+  .countdown {
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+
+  button {
+    padding: 14px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1.05rem;
     cursor: pointer;
-    z-index: 50;
-    box-shadow: var(--shadow-md);
-    transition: transform .2s ease;
-}
+    margin: 10px;
+    transition: all 0.2s ease;
+  }
 
-#musicToggle:hover {
-    transform: scale(1.1);
-}
+  .yes { background: #ff1e56; color: white; }
+  .no  { background: white; color: #ff1e56; position: absolute; }
 
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
-}
+  button:hover { transform: scale(1.1); }
+
+  .heart {
+    position: absolute;
+    font-size: 22px;
+    animation: float 6s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.7); opacity: 0; }
+  }
+
+  .slideshow {
+    width: 100%;
+    height: 200px;
+    margin: 14px 0;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  .slideshow img.active { opacity: 1; }
 </style>
 </head>
 
 <body>
 
-<div id="heart-container"></div>
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+</audio>
 
-<div class="container" id="mainCard">
-    <img class="gif" src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" />
-    <h1 id="question">Hey Dee ❤️<br>Would you do me the honor of being my Valentine?</h1>
+<div class="card">
+  <div class="joke">😏 Hey baby… you’re looking <b>scrumptious</b> today 🍓</div>
 
-    <div class="buttons">
-        <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
-        <button id="noBtn" onmouseover="moveButton()" onclick="areYouSure()">No 🥺</button>
-    </div>
+  <h1>💖 Dee, Will You Be My Valentine?</h1>
+
+  <div class="countdown" id="countdown"></div>
+
+  <p>
+    Hi Dee 😌💗<br><br>
+    It’s Tobi.<br>
+    You’re cute, funny, and honestly way too fine 😏<br>
+    Clicking “Yes” is basically destiny.
+  </p>
+
+  <div class="slideshow">
+    <img src="https://picsum.photos/400/300?1" class="active">
+    <img src="https://picsum.photos/400/300?2">
+    <img src="https://picsum.photos/400/300?3">
+  </div>
+
+  <button class="yes" onclick="yesClick()">Yes 💘</button>
+  <button class="no" id="noBtn">No 🙈</button>
 </div>
 
-<div id="musicToggle" onclick="toggleMusic()">🔊</div>
-
-<!-- AUDIO -->
-<audio id="bgMusic" loop>
-    <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-moment-642.mp3">
-</audio>
-
-<audio id="celebrationMusic">
-    <source src="https://assets.mixkit.co/music/preview/mixkit-happy-love-song-1008.mp3">
-</audio>
-
-<audio id="yaySound">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-happy-bell-alert-601.mp3">
-</audio>
-
 <script>
-let clickCount = 0;
-let musicStarted = false;
+  // Countdown
+  const countdownEl = document.getElementById("countdown");
+  const valentines = new Date("February 14, 2026 00:00:00").getTime();
 
-const questions = [
-    "Are you sure? 🤨",
-    "Like… REALLY sure?? 😭",
-    "Think again… 🌹",
-    "Last chance 💔",
-    "Okay okay… I’ll stop running 🥺"
-];
-
-const bgMusic = document.getElementById("bgMusic");
-const celebrationMusic = document.getElementById("celebrationMusic");
-
-/* Music helpers */
-function fadeIn(audio, target = 0.35) {
-    audio.volume = 0;
-    audio.play();
-    let v = 0;
-    const fade = setInterval(() => {
-        v += 0.02;
-        audio.volume = Math.min(v, target);
-        if (v >= target) clearInterval(fade);
-    }, 100);
-}
-
-function fadeOut(audio) {
-    let v = audio.volume;
-    const fade = setInterval(() => {
-        v -= 0.03;
-        audio.volume = Math.max(v, 0);
-        if (v <= 0) {
-            audio.pause();
-            clearInterval(fade);
-        }
-    }, 100);
-}
-
-function startMusic() {
-    if (!musicStarted) {
-        fadeIn(bgMusic);
-        musicStarted = true;
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = valentines - now;
+    if (diff < 0) {
+      countdownEl.innerHTML = "💘 It’s Valentine’s Day 💘";
+      return;
     }
-}
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    countdownEl.innerHTML = `⏳ ${days} days until Valentine’s Day`;
+  }, 1000);
 
-document.addEventListener("click", startMusic, { once: true });
-document.addEventListener("touchstart", startMusic, { once: true });
+  // YES click
+  function yesClick() {
+    document.body.innerHTML = `
+      <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        text-align:center;
+        padding:20px;
+      ">
+        <h1 style="font-size:3rem;">SHE SAID YES!!! 💕🥰</h1>
 
-function toggleMusic() {
-    const icon = document.getElementById("musicToggle");
-    if (bgMusic.paused && celebrationMusic.paused) {
-        fadeIn(bgMusic);
-        icon.innerText = "🔊";
-    } else {
-        fadeOut(bgMusic);
-        fadeOut(celebrationMusic);
-        icon.innerText = "🔇";
-    }
-}
-
-/* Hearts */
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤️";
-
-    const size = Math.random() * 14 + 14;
-    heart.style.fontSize = size + "px";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.opacity = Math.random() * 0.5 + 0.4;
-    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
-
-    document.getElementById("heart-container").appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
-}
-setInterval(createHeart, 300);
-
-/* No button behavior */
-function moveButton() {
-    if (clickCount >= questions.length - 1) return;
-
-    const btn = document.getElementById("noBtn");
-    const padding = 20;
-
-    const maxX = window.innerWidth - btn.offsetWidth - padding;
-    const maxY = window.innerHeight - btn.offsetHeight - padding;
-
-    btn.style.position = "fixed";
-    btn.style.left = Math.random() * maxX + "px";
-    btn.style.top = Math.random() * maxY + "px";
-}
-
-function areYouSure() {
-    if (clickCount < questions.length) {
-        document.getElementById("question").innerText = questions[clickCount];
-        clickCount++;
-
-        if (clickCount === questions.length) {
-            document.getElementById("noBtn").innerText = "Okay fine 😭❤️";
-        }
-    }
-}
-
-/* Celebrate */
-function celebrate() {
-    fadeOut(bgMusic);
-    fadeIn(celebrationMusic, 0.5);
-    document.getElementById("yaySound").play();
-
-    document.body.animate(
-        [{ transform: "scale(1)" }, { transform: "scale(1.03)" }, { transform: "scale(1)" }],
-        { duration: 600, easing: "ease-out" }
-    );
-
-    document.getElementById("mainCard").innerHTML = `
-        <img class="gif" src="https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif">
-        <h1>YAY!! 💖🌹</h1>
-        <p style="font-size:1.4rem">
-            I knew you’d say yes, Dee.<br><br>
-            Best Valentine’s ever ❤️
+        <p style="font-size:1.6rem; margin:10px 0;">
+          😌💖 That’s my girl 💖😌
         </p>
-    `;
 
-    document.body.style.background =
-        "radial-gradient(circle, #ffb3c1 0%, #ff4d6d 100%)";
-}
+        <p style="font-size:1.4rem;">
+          Dee is officially Tobi’s Valentine 💘
+        </p>
+
+        <p style="max-width:420px;">
+          I really like you. Your smile, your energy,
+          the way you exist… all of it makes my days better.
+          I’m really happy it’s you 💌
+        </p>
+
+        <p>– Tobi 😘</p>
+      </div>
+    `;
+    confetti();
+  }
+
+  // No button chaos
+  const noBtn = document.getElementById("noBtn");
+  noBtn.addEventListener("mouseover", moveNo);
+  noBtn.addEventListener("click", () => alert("Nice try 😏"));
+
+  function moveNo() {
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  }
+
+  // Floating hearts
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+  }
+  setInterval(createHeart, 260);
+
+  // Confetti
+  function confetti() {
+    for (let i = 0; i < 160; i++) {
+      const c = document.createElement("div");
+      c.innerHTML = "🎉";
+      c.style.position = "fixed";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.top = "-20px";
+      c.style.fontSize = "20px";
+      c.style.animation = `fall ${2 + Math.random() * 3}s linear`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Slideshow
+  const slides = document.querySelectorAll(".slideshow img");
+  let index = 0;
+  setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 3000);
 </script>
 
 </body>
