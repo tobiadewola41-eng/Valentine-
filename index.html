@@ -13,9 +13,7 @@
     --glass: rgba(255,255,255,0.06);
   }
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
@@ -36,10 +34,11 @@
     background: var(--glass);
     backdrop-filter: blur(18px);
     border-radius: 24px;
-    padding: 30px 26px 32px;
+    padding: 30px 26px 34px;
     text-align: center;
     box-shadow: 0 40px 80px rgba(0,0,0,0.45);
     animation: cardEnter 0.9s cubic-bezier(.2,.8,.2,1);
+    position: relative;
   }
 
   @keyframes cardEnter {
@@ -84,24 +83,23 @@
   }
 
   .buttons {
-    display: flex;
-    gap: 14px;
-    justify-content: center;
     position: relative;
+    height: 64px;
   }
 
   button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     border: none;
     padding: 12px 28px;
     border-radius: 999px;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.2s ease;
+    transition:
+      transform 0.45s cubic-bezier(.22,.61,.36,1),
+      box-shadow 0.3s ease;
     white-space: nowrap;
-  }
-
-  button:active {
-    transform: scale(0.97);
   }
 
   .yes {
@@ -115,7 +113,6 @@
     background: transparent;
     color: #c7d2fe;
     border: 1px solid rgba(255,255,255,0.25);
-    position: relative;
     z-index: 1;
   }
 
@@ -170,9 +167,9 @@
     I think you’re genuinely special.
   </p>
 
-  <div class="buttons">
-    <button class="yes" onclick="yesClick()">Yes 💙</button>
-    <button class="no" onclick="noClick()">No</button>
+  <div class="buttons" id="buttonArea">
+    <button class="yes" id="yesBtn" onclick="yesClick()">Yes 💙</button>
+    <button class="no" id="noBtn" onclick="noClick()">No</button>
   </div>
 </div>
 
@@ -200,30 +197,41 @@
   rotateJoke();
   setInterval(rotateJoke, 3600);
 
-  /* NO button logic */
+  /* NO button behavior (professional dodge) */
   let noCount = 0;
-  const noBtn = document.querySelector(".no");
-  const yesBtn = document.querySelector(".yes");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const area = document.getElementById("buttonArea");
 
   function noClick() {
     noCount++;
 
+    // System feedback
     jokeEl.classList.remove("show");
     setTimeout(() => {
       jokeEl.textContent = "🤖 Let’s try that again.";
       jokeEl.classList.add("show");
     }, 300);
 
-    const x = (Math.random() * 80) - 40;
-    const y = (Math.random() * 40) - 20;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    // Calculate bounds
+    const areaRect = area.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
 
-    const scale = 1 + noCount * 0.08;
-    yesBtn.style.transform = `scale(${scale})`;
-    yesBtn.style.boxShadow = `0 ${12 + noCount * 2}px ${26 + noCount * 4}px rgba(90,169,255,0.6)`;
+    const maxX = areaRect.width / 2 - btnRect.width / 2;
+    const maxY = 18;
+
+    const x = (Math.random() * maxX * 2) - maxX;
+    const y = (Math.random() * maxY * 2) - maxY;
+
+    noBtn.style.transform = `translate(calc(-50% + ${x}px), ${y}px)`;
+
+    // Grow YES button subtly
+    const scale = 1 + noCount * 0.07;
+    yesBtn.style.transform = `translateX(-50%) scale(${scale})`;
+    yesBtn.style.boxShadow =
+      `0 ${12 + noCount * 2}px ${26 + noCount * 4}px rgba(90,169,255,0.6)`;
   }
 
-  /* YES */
   function yesClick() {
     document.getElementById("card").innerHTML = `
       <div class="icons">💙 🖤 💙</div>
