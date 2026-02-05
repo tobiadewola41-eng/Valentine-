@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Tobi 💖 Dee</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
   * {
@@ -13,90 +13,110 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #fff0f3, #ffd6e0);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 20px;
-    color: #5a2a2a;
+    color: #4a2b2b;
   }
 
   .card {
-    background: #fff;
+    background: #ffffff;
+    width: 100%;
+    max-width: 360px;
     border-radius: 24px;
     padding: 24px;
-    max-width: 360px;
-    width: 100%;
     text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    animation: cardIn 0.6s ease-out;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .teddy {
     width: 100%;
-    max-height: 200px;
+    height: 200px;
     object-fit: cover;
     border-radius: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
 
   .joke {
     font-size: 1.1rem;
-    margin-bottom: 12px;
     min-height: 48px;
+    margin-bottom: 14px;
+    color: #7a3b3b;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .joke.show {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   h1 {
     font-size: 1.9rem;
-    margin: 10px 0;
     color: #ff4d6d;
+    margin: 10px 0;
   }
 
   p {
     font-size: 1rem;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    line-height: 1.5;
   }
 
   .buttons {
     display: flex;
-    justify-content: center;
     gap: 12px;
-    flex-wrap: wrap;
+    justify-content: center;
   }
 
   button {
+    border: none;
     padding: 12px 22px;
     border-radius: 999px;
-    border: none;
     font-size: 1rem;
     cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  button:active {
+    transform: scale(0.96);
   }
 
   .yes {
     background: #ff4d6d;
     color: white;
+    box-shadow: 0 6px 16px rgba(255,77,109,0.35);
   }
 
   .no {
-    background: #ffe3e8;
+    background: #ffe6ec;
     color: #ff4d6d;
   }
 
-  button:active {
-    transform: scale(0.97);
-  }
-
-  .heart {
+  /* Confetti */
+  .confetti {
     position: fixed;
-    bottom: -20px;
-    font-size: 18px;
-    animation: floatUp 6s linear infinite;
-    opacity: 0.8;
+    top: -10px;
+    width: 8px;
+    height: 14px;
+    background: red;
+    opacity: 0.9;
+    animation: confettiFall linear forwards;
   }
 
-  @keyframes floatUp {
+  @keyframes confettiFall {
     to {
-      transform: translateY(-110vh);
+      transform: translateY(110vh) rotate(720deg);
       opacity: 0;
     }
   }
@@ -112,17 +132,17 @@
 <div class="card" id="card">
   <img
     class="teddy"
-    src="https://images.unsplash.com/photo-1517841905240-472988babdf9"
+    src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80"
     alt="Cute teddy bear"
-  >
+  />
 
-  <div class="joke" id="joke"></div>
+  <div class="joke show" id="joke"></div>
 
   <h1>Dee, will you be my Valentine? 💖</h1>
 
   <p>
-    It’s Tobi 😌<br>
-    I think you’re cute, amazing, and lowkey my favorite person.
+    It’s Tobi 😌<br />
+    I think you’re cute, amazing, and someone I’d really love to be cute with.
   </p>
 
   <div class="buttons">
@@ -132,80 +152,61 @@
 </div>
 
 <script>
-  /* Joke slideshow */
+  /* Joke carousel */
   const jokes = [
     "😏 Hey baby… you’re looking scrumptious today 🍓",
-    "🧸 Warning: This teddy is judging you if you say no",
-    "💖 Be honest… you smiled already",
+    "🧸 This teddy approves this message",
+    "💖 Be honest… you already smiled",
     "😌 Okay but imagine us being cute together"
   ];
 
-  let jokeIndex = 0;
   const jokeEl = document.getElementById("joke");
+  let jokeIndex = 0;
 
-  function showNextJoke() {
-    jokeEl.textContent = jokes[jokeIndex];
-    jokeIndex = (jokeIndex + 1) % jokes.length;
+  function rotateJoke() {
+    jokeEl.classList.remove("show");
+    setTimeout(() => {
+      jokeEl.textContent = jokes[jokeIndex];
+      jokeEl.classList.add("show");
+      jokeIndex = (jokeIndex + 1) % jokes.length;
+    }, 400);
   }
 
-  showNextJoke();
-  setInterval(showNextJoke, 3000);
+  rotateJoke();
+  setInterval(rotateJoke, 3200);
 
-  /* Yes click */
+  /* YES */
   function yesClick() {
     document.getElementById("card").innerHTML = `
-      <img
-        class="teddy"
-        src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb"
-      >
-      <h1>SHE SAID YES!!! 🥰</h1>
+      <img class="teddy"
+        src="https://images.unsplash.com/photo-1615485737651-580c9159c89a?auto=format&fit=crop&w=800&q=80">
+      <h1>SHE SAID YES 🥰</h1>
       <p style="font-size:1.2rem;">😌💖 That’s my girl 💖😌</p>
       <p>
         Dee is officially Tobi’s Valentine.<br>
         I’m really happy it’s you 💌
       </p>
     `;
-    confetti();
+    launchConfetti();
   }
 
   function noClick() {
-    alert("😅 Let’s try that again…");
+    alert("😅 Let’s rethink that one...");
   }
 
-  /* Hearts */
-  function spawnHeart() {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.textContent = Math.random() > 0.5 ? "❤️" : "💖";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 4 + Math.random() * 4 + "s";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 7000);
-  }
-  setInterval(spawnHeart, 500);
-
-  /* Confetti */
-  function confetti() {
-    for (let i = 0; i < 100; i++) {
+  /* Confetti engine */
+  function launchConfetti() {
+    const colors = ["#ff4d6d", "#ffd166", "#f78fb3", "#ffffff"];
+    for (let i = 0; i < 120; i++) {
       const c = document.createElement("div");
-      c.textContent = "🎉";
-      c.style.position = "fixed";
+      c.className = "confetti";
       c.style.left = Math.random() * 100 + "vw";
-      c.style.top = "-20px";
-      c.style.fontSize = "18px";
-      c.style.animation = "fall 3s linear";
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = 2.5 + Math.random() * 2 + "s";
       document.body.appendChild(c);
-      setTimeout(() => c.remove(), 3000);
+      setTimeout(() => c.remove(), 5000);
     }
   }
-
-  const style = document.createElement("style");
-  style.innerHTML = `
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
-  `;
-  document.head.appendChild(style);
 </script>
 
 </body>
